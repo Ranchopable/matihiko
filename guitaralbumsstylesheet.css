@@ -1,0 +1,35 @@
+h1 {
+    font-family: Cooper Black;
+    font-size: 5em;
+    color: #08a3a5;
+}
+
+p {
+    font-family: Stencil;
+    font-size: 2.5em;
+    color: #01ba3f;
+}
+
+span {
+    font-size: 2em;
+    color: #08a3a5;
+}
+
+body {
+    background-color: #89061e;
+}
+
+ul {
+    font-family: Cooper Black;
+    font-size: 2.5em;
+    color: #08a3a5;
+}
+
+th {
+    font-size: 2.5em;
+    color:#7c1167;
+}
+
+img{
+    height: 500px;
+}
