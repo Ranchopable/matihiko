@@ -35,8 +35,56 @@ module.exports = myFunction
 var myFunction = require('./myFunction.js')
 ```
 
+Jest testing structure;
+```javascript
+test("test some basic js", () => {
+  expect(2+2 === 4).toBeTruthy()
+  expect(3*3).toBe(9)
+
+  const testArray = ['dave', 'sharon']
+  testArray.push('flora')
+
+  expect(testArray).toEqual(['dave', 'sharon', 'flora'])
+})
+```
+
 
 ## Miscellaneous
 1. Ugly works > Pretty doesn't work
 2. Pretty works > Ugly works
 3. Don't stay ugly longer than one to three days!
+
+
+## Testing
+Pillars of testing'
+RED // GREEN // REFACTOR
+
+The flow;
+-Create a branch for your new feature
+-Write a test and watch it fail
+-Implement the functionality and watch your test pass
+-Review the codebase and refactor as necessary
+-Review your changes using git diff
+-Stage and commit your changes (and issue a pull request or merge as appropriate)
+-Rinse and repeat ;)
+
+
+## Express
+Example of a simple web server;
+```javascript
+// server.js
+const express = require('express')
+
+const port = 3000
+const server = express()
+
+server.get('/', (req, res) => {
+  res.send('<h1>Hello world</h1>')
+})
+
+server.listen(port, () => {
+  console.log('The server is listening on port', port)
+})
+```
+
+To see this in action, start the server by running node server in your terminal, and visit http://localhost:3000 in your browser. You can also `run curl http://localhost:3000` in another terminal tab or window.
