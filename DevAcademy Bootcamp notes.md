@@ -20,10 +20,14 @@ Branch newsletter set up to track remote branch newsletter from origin.
 Switched to a new branch 'newsletter'
 
 ## JavaScript
-'var myFunction = require('./myFunction.js')'
 
-'function myFunction () {
+```javascript
+function myFunction () {
     console.log("This is my function")
 }
 
 module.exports = myFunction
+```
+```javascript
+var myFunction = require('./myFunction.js')
+```
