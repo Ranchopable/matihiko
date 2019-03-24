@@ -38,12 +38,15 @@ var myFunction = require('./myFunction.js')
 Jest testing structure;
 ```javascript
 test("test some basic js", () => {
+  //arrange
   expect(2+2 === 4).toBeTruthy()
   expect(3*3).toBe(9)
-
+  
+  //assert
   const testArray = ['dave', 'sharon']
   testArray.push('flora')
 
+  //act
   expect(testArray).toEqual(['dave', 'sharon', 'flora'])
 })
 ```
@@ -70,6 +73,8 @@ The flow;
 
 
 ## Express
+online tutorial https://www.youtube.com/watch?v=9TSBKO59u0Y
+
 Example of a simple web server;
 ```javascript
 // server.js
@@ -88,3 +93,8 @@ server.listen(port, () => {
 ```
 
 To see this in action, start the server by running node server in your terminal, and visit http://localhost:3000 in your browser. You can also `run curl http://localhost:3000` in another terminal tab or window.
+
+Below is a line of middleware.
+```javascript
+server.use(express.static('public'))
+```
