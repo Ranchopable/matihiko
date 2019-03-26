@@ -98,3 +98,20 @@ Below is a line of middleware.
 ```javascript
 server.use(express.static('public'))
 ```
+## Asynchronous server testing
+Below is a template/sample for asynchronous server tests
+```javascript
+test('Includes correct artist name in correct area of artworks page', done => {
+  superTest(server).get('/artworks/1').end((err, res) => {
+
+    const expected = 'Ben';
+    const $ = cheerio.load(res.text);
+
+    const actual = $('.artist').text();
+
+    expect(actual).toContain(expected);
+
+    done()
+  })
+})
+```
