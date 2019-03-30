@@ -5,7 +5,7 @@ npm init -y
 npm install colors
 
 npm install jest
-npm install supertest
+npm install supertest --save-dev
     "test": "jest --watchAll --noStackTrace --color(s?)"
     npm test
     filename.test.js
@@ -16,6 +16,7 @@ npm install --save-dev nodemon (auto refreshes server)
     npm start
     "start": "node index.js" (index being the page that runs the server)
 
+use npx for "one-off" commands that aren't in a script
 
 ## Git
 $ git checkout --track origin/newsletter
@@ -115,3 +116,94 @@ test('Includes correct artist name in correct area of artworks page', done => {
   })
 })
 ```
+
+## Debug Node in DevTools
+https://medium.com/@paul_irish/debugging-node-js-nightlies-with-chrome-devtools-7c4a1b95ae27
+
+## Node fs
+EVERY function in the fs module has a synchronous *and* asynchronous form.
+fs (filesystem) is a core module of node.
+
+Sync vs. async;
+https://www.youtube.com/watch?v=GdBgP71CSow
+
+## Testing asyncshronous code with jest
+It's common in JavaScript for code to run asynchronously. When you have code that runs asynchronously, Jest needs to know when the code it is testing has completed, before it can move on to another test. Jest has several ways to handle this.
+
+### Callbacks
+The most common asynchronous pattern is callbacks.
+
+For example, let's say that you have a fetchData(callback) function that fetches some data and calls callback(data) when it is complete. You want to test that this returned data is just the string 'peanut butter'.
+
+By default, Jest tests complete once they reach the end of their execution. That means this test will not work as intended:
+
+// Don't do this!
+``` javascript 
+test('the data is peanut butter', () => {
+  function callback(data) {
+    expect(data).toBe('peanut butter');
+  }
+
+  fetchData(callback);
+});
+```
+
+The problem is that the test will complete as soon as fetchData completes, before ever calling the callback.
+
+There is an alternate form of test that fixes this. Instead of putting the test in a function with an empty argument, use a single argument called done. Jest will wait until the done callback is called before finishing the test.
+
+```javascript
+test('the data is peanut butter', done => {
+  function callback(data) {
+    expect(data).toBe('peanut butter');
+    done();
+  }
+
+  fetchData(callback);
+});
+```
+
+If done() is never called, the test will fail, which is what you want to happen.
+
+## HBS
+Save your partials in a partials folder, and call them like this
+```handlebars
+{{>apple}}
+```
+
+Save things like headers, footers etc. in a layouts folder.
+
+## Express
+Create a file each for;
+-index
+-server
+-routes
+
+## Supertest
+Example supertest;
+```javascript
+const request = require('supertest')
+ 
+const server = require('../server.js')
+
+test('/example returns WOMBAT', done => {
+  // Arrange
+  const expected = 'WOMBAT'
+
+  // Act
+  request(server)
+    .get('/example')
+    .end((err, res) => {
+      // Assert
+      expect(res.text).toBe(expected)
+      done()
+    })
+})
+```
+Note how the function `done` is passed as an argument and called at the end of the test. This is and example of asynchronous testing.
+
+You can also send data to supertest;
+```javascript
+require(server).post('/form').send({name=test}).end( done=> {...)
+```
+
