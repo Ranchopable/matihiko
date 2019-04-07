@@ -152,6 +152,8 @@ The problem is that the test will complete as soon as fetchData completes, befor
 
 There is an alternate form of test that fixes this. Instead of putting the test in a function with an empty argument, use a single argument called done. Jest will wait until the done callback is called before finishing the test.
 
+Async functions are appropriate when they are going to take a long time to complete, so the calling code isn't blocked. It turns out that it takes a relatively long time to read or write to the filesystem (the hard drive) and the network (e.g. sending an HTTP request). In these cases, it's common to use async functions.
+
 ```javascript
 test('the data is peanut butter', done => {
   function callback(data) {
@@ -178,6 +180,17 @@ Create a file each for;
 -index
 -server
 -routes
+
+`index.js` can be pretty simple:
+
+```javascript
+const server = require('./server')
+const port = process.env.PORT || 3000
+
+server.listen(port, function () {
+  console.log('Server listening on port:', port)
+})
+```
 
 ## Supertest
 Example supertest;
@@ -207,3 +220,113 @@ You can also send data to supertest;
 require(server).post('/form').send({name=test}).end( done=> {...)
 ```
 
+## fs.writeFile
+Pointers;
+-you might want to "stringify" the data befre writing it
+-the second and third arguments in stringify prettify the formatting
+-pass in the file you want to write to, the data you want to write, and a callbakc function (for async) in that order
+
+```javascript
+const fs = require('fs')
+
+const data = require('./fighters.json')
+const fighterWeWantToWrite =  JSON.stringify(data["fighters"][2], null, 2)
+
+fs.writeFile('spinal.txt', fighterWeWantToWrite, (err) => {
+    if (err) {
+        console.log(err)
+    }
+})
+```
+
+## Handlebars
+Because integration with Express.js requires middleware, we'll use the `express-handlebars` npm package instead of the generic Handlebars package. In the following example, assume our data is coming from a module defined in `data.js`. It's `home` property contains an object for the `home` template.
+
+```javascript
+const express = require('express')
+const hbs = require('express-handlebars')
+
+const data = require('./data')
+
+const server = express()
+
+server.engine('hbs', hbs(
+  extname: 'hbs',
+  defaultLayout: 'main'
+))
+server.set('view engine', 'hbs')
+
+server.get('/', function (req, res) {
+  res.render('home', data.home)
+})
+```
+Notice how this uses res.render in our route to tell Express to use the Handlebars engine we registered for *.handlebars template files. We also told Express that our views are located in the views folder. Therefore, our / route is applying data.home to the template located at views/home.handlebars.
+
+## server.POST
+Never render, always redirect!!
+
+If we use `post`, we must parse the body of the request. To do this, we need an additional module:
+
+```javascript
+const express = require('express')
+const bodyParser = require('body-parser')
+
+const server = express()
+server.use(bodyParser.urlencoded())
+
+...
+
+router.post('/greetings', function (req, res) {
+  const greeting = req.body.say
+  const recipient = req.body.to
+  ...
+})
+...
+```
+The body-parser module is Node.js middleware that parses the body of requests and places the parameters as properties on req.body.
+
+## Separate server and routes files
+https://github.com/piwakawaka-2019/student-handbook/blob/master/week2/08-express-router.md
+
+## HTTP verbs
+-GET: asks for an existing resource
+-POST: sends data to create a new resource
+-PUT: sends data to update existing resource
+-DELETE: asks for an existing resource to be deleted
+
+A `get` request is a read operation, and read operations shouldn't have side effects - meaning, nothing should change as the result of just reading it
+
+If you're sending data to the server to be saved, you expect side effects - the saving of the data. That's fine, you should just be more explicit in your intent - by using `post`.
+
+## Database Migrations
+*Structure of a migration file*
+There are two functions within your newly created migration file. The first is `exports.up`, which specifies the commands that should be run to make the database change that you'd like to make. Usually you'll be running one or more commands found in the schema builder section of the Knex documentation. These are things like creating database tables, adding or removing a column from a table, changing indexes, etc.
+
+The second function within your migration file is `exports.down`. This functions goal is to do the opposite of what exports.up did. If exports.up created a table, then exports.down will drop that table. If exports.up added a column, then exports.down will remove that column. The reason to include exports.down is so that you can quickly undo a migration should you need to.
+
+http://perkframework.com/v1/guides/database-migrations-knex.html
+
+## Promises
+...are useful when you want to run multiple asynchronous functions in a specific order. It is much tidier than nesting callback functions.
+
+Promises have the `.then()` and ``.catch()` methods available to it
+
+## KNEX join
+```javascript
+knex('dogs')
+  .join('breeds', 'dogs.breed_id', '=', 'breeds.id')
+  .select('dogs.name', 'breeds.name as breed')
+```
+"Join the dogs table and the breeds table where the breed id matches. Then return the data in two columns: "name" (the name column in the dogs table) and "breed" (the name column in the breeds table)."
+
+## KNEX
+The following katas contain lots of functions using knex;
+-knex-to-do-cli
+-knex-joins-stories
+-knex-relationships-stories
+
+## chmod
+...basically allows you to make files executable
+
+## Testing promises
+... you *don't* need to use ,catch
