@@ -329,4 +329,31 @@ The following katas contain lots of functions using knex;
 ...basically allows you to make files executable
 
 ## Testing promises
-... you *don't* need to use ,catch
+... you *don't* need to use .catch
+
+## React 
+I needed to do the following in order to get this repo working properly on my machine https://github.com/piwakawaka-2019/react-minimal
+
+Change package.json from...
+```javascript
+ "scripts": {
+    "start": "node server & webpack --watch"
+  },
+```
+...to...
+```javascript
+  "scripts": {
+    "start": "node server",
+    "build": "webpack --watch"
+  },
+```
+...because windows terminal can;t run two commands at once.
+
+I also needed to do some global installs;
+`npm install webpack -g`
+`npm install webpack-cli -g`
+
+... and then, in separate terminals, run;
+`npm build`
+`npm start`
+
