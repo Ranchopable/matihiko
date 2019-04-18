@@ -357,3 +357,28 @@ I also needed to do some global installs;
 `npm build`
 `npm start`
 
+React components receive their data in the form of props.
+
+## ES6
+...added;
+-`let` and `const`
+-template strings
+-arrow functions
+
+## React
+React components se *two* different kinds of data;
+-*State* is data created within a React Component and can be changed within a component using this.setState()
+-*Props* is data passed into a Component from its parent and should not be changed.
+
+## React router
+In React, we can manage client-side routing using React Router.
+`npm install react-router-dom`
+
+routing examples: https://github.com/piwakawaka-2019/student-handbook/blob/master/week4/11-react-router.md
+
+
+## REVISIT THESE NOTES
+https://github.com/piwakawaka-2019/student-handbook/blob/master/week4/12-react-forms.md
+
+## Week 5
+light on notes - worth revisiting notes on piwakawaka repo
