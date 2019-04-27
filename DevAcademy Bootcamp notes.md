@@ -386,4 +386,4 @@ light on notes - worth revisiting notes on piwakawaka repo
 ## Enzyme
 Enzyme is a JavaScript Testing utility for React that makes it easier to test your React Components' output.
 
-![alt text]('./enzymeExample.png')
+![alt text]('https://github.com/deswhelan/matihiko/blob/master/enzymeExample.png?raw=true')
