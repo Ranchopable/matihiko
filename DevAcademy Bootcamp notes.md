@@ -382,3 +382,8 @@ https://github.com/piwakawaka-2019/student-handbook/blob/master/week4/12-react-f
 
 ## Week 5
 light on notes - worth revisiting notes on piwakawaka repo
+
+## Enzyme
+Enzyme is a JavaScript Testing utility for React that makes it easier to test your React Components' output.
+
+![alt text]('./enzymeExample.png')
