@@ -387,3 +387,139 @@ light on notes - worth revisiting notes on piwakawaka repo
 Enzyme is a JavaScript Testing utility for React that makes it easier to test your React Components' output.
 
 ![alt text]('https://github.com/deswhelan/matihiko/blob/master/enzymeExample.png?raw=true')
+
+## Refactoring 
+Martin Fowler
+
+## Useful apps/sites
+Tower
+Wappalyzer
+http://implicit.harvard.edu
+
+
+## API
+allow state to render BEFORE API is called
+
+## HTTP
+200 usually good
+500 usually something went wron in the backend
+
+## CORS
+CORS error? Build a proxy API
+('reddit' repo - async-redux-stories?
+
+## NPM
+`npm audit fix`
+Do this in production! We get away without it in learning environment
+
+## Redux
+index.js on client side;
+
+```js
+    
+import React from 'react'
+import {render} from 'react-dom'
+import {Provider} from 'react-redux'
+import {createStore, applyMiddleware, compose} from 'redux'
+import thunkMiddleware from 'redux-thunk'
+
+import reducers from './reducers'
+import App from './components/App'
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const store = createStore(reducers, composeEnhancers(
+  applyMiddleware(thunkMiddleware)
+))
+
+document.addEventListener('DOMContentLoaded', () => {
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('app')
+  )
+})
+```
+
+The idea of a reducer is to change the global state
+
+repeat this kata:   https://github.com/deswhelan/sweet-as-beers
+
+Redux order:
+1) Reducers
+2) Wire Redux into client-side index.js
+3) Wire global state into relevant componenents
+4) Dispatch an action to get data from API
+5) Add a cse to reducer
+6) Dispatch from the component
+
+We generally use functional components in REdux. The exception is forms (use stateful)
+
+## Thunk
+research!
+
+## Redux tutorial notes
+https://egghead.io/courses/getting-started-with-redux
+
+Principles of Redux
+1) The state of your application will be represented by a single JavaScript object
+2) Any time you want to change the state, you need to dispatch an action. An action is a simple JS object that describes the change.
+3) To describe state mutations you must write a reducer. This is a pure function that takes the previous stat of app, the action being dispatched and returns the next state of the app
+
+Importan Redux methods;
+```js
+getState()
+dispatch()
+subscribe()
+```
+
+Only *stateful* components know about redux.
+
+
+
+## Subscribe
+In the example code below, the subscribe() method means the render() method will be called any time the store state changes;
+
+```JS
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { createStore } from 'redux'
+
+import App from './components/App'
+import combinedReducer from './components/reducers/combinedReducer';
+
+const store = createStore(combinedReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
+
+document.addEventListener('DOMContentLoaded', () => {
+  /// 2) render gets called
+  render()
+
+  /// 1) store gets updated
+  store.subscribe(render)
+})
+
+function render() {
+  ReactDOM.render(
+    <App store={store} />,
+    document.getElementById('app')
+  )
+}
+```
+
+## React REdux
+https://www.youtube.com/watch?v=OxIDLw0M-m0&list=PL4cUxeGkcC9ij8CfkAY2RAGb-tmkNwQHG
+NetNinja tutorial
+
+## DevAc challenegs
+https://github.com/dev-academy-challenges
+
+## Enzyme
+repo in DevAc challneges folder in bootcamp
+
+Different projects will have different needs, but as a general rule we should probably write:
+
+a lot of unit tests
+some integration tests that cover our API and/or database code
+a smaller number of integration tests that cover our UI, focusing on key components
